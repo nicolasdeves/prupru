@@ -1,0 +1,45 @@
+{
+	"name": "prupru",
+	"productName": "Prupru",
+	"version": "1.0.1",
+	"description": "Vários serviços (WhatsApp, Gmail, Teams...) em um só aplicativo",
+	"private": true,
+	"main": "dist/main.js",
+	"scripts": {
+		"build": "tsc -p . && node scripts/copyRenderer.mjs",
+		"start": "npm run build && electron .",
+		"icon": "electron scripts/buildIcon.cjs",
+		"icons:services": "npm run build && electron scripts/fetchServiceIcons.cjs",
+		"dist": "npm run build && electron-builder --win"
+	},
+	"build": {
+		"appId": "br.com.prupru",
+		"productName": "Prupru",
+		"directories": {
+			"output": "release"
+		},
+		"files": [
+			"dist/**",
+			"assets/**"
+		],
+		"win": {
+			"target": "nsis",
+			"icon": "assets/icon.ico"
+		},
+		"nsis": {
+			"oneClick": false,
+			"allowToChangeInstallationDirectory": true,
+			"createDesktopShortcut": true,
+			"shortcutName": "Prupru",
+			"artifactName": "Prupru-Setup-${version}.${ext}",
+			"createStartMenuShortcut": true,
+			"uninstallDisplayName": "Prupru"
+		}
+	},
+	"devDependencies": {
+		"@types/node": "^24.19.2",
+		"electron": "^44.9.2",
+		"electron-builder": "^26.15.3",
+		"typescript": "^7.0.2"
+	}
+}

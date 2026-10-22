@@ -1,0 +1,1320 @@
+:root {
+	/* --sidebar-width is replaced by the width the user dragged; the collapsed one must match SIDEBAR_COLLAPSED_WIDTH in main.ts. */
+	--sidebar-width: 220px;
+	--sidebar-collapsed-width: 68px;
+	--current-sidebar-width: var(--sidebar-width);
+	/* Grays taken from the pigeon in the app icon. */
+	--background: #1c1c20;
+	--panel: #242428;
+	--surface: #2e2e33;
+	--surface-hover: #38383e;
+	--border: #34343a;
+	--text: #f2f2f3;
+	--text-muted: #a0a0a8;
+	--accent: #c9c9ce;
+	--accent-strong: #ffffff;
+	--accent-soft: rgba(201, 201, 206, 0.14);
+	--accent-ring: rgba(201, 201, 206, 0.25);
+	--on-accent: #1c1c20;
+	--danger: #f15c6d;
+	--track: #4a4a52;
+	--avatar-fallback: #4a4a52;
+	--secondary-hover: #44444b;
+	--backdrop: rgba(12, 12, 14, 0.6);
+	--modal-shadow: 0 24px 64px rgba(0, 0, 0, 0.5);
+	--radius: 12px;
+	--ease-out: cubic-bezier(0.33, 1, 0.68, 1);
+	color-scheme: dark;
+}
+
+/* The main process sets the theme source, so this follows "Sistema", "Claro" and "Escuro". */
+@media (prefers-color-scheme: light) {
+	:root {
+		--background: #efeff1;
+		--panel: #ffffff;
+		--surface: #f4f4f5;
+		--surface-hover: #e7e7ea;
+		--border: #e2e2e6;
+		--text: #1c1c20;
+		--text-muted: #6b6b74;
+		--accent: #48484f;
+		--accent-strong: #1c1c20;
+		--accent-soft: rgba(72, 72, 79, 0.1);
+		--accent-ring: rgba(72, 72, 79, 0.22);
+		--on-accent: #ffffff;
+		--danger: #d63b4e;
+		--track: #c8c8cd;
+		--avatar-fallback: #8a8a90;
+		--secondary-hover: #dcdce0;
+		--backdrop: rgba(28, 28, 32, 0.3);
+		--modal-shadow: 0 24px 64px rgba(28, 28, 32, 0.18);
+		color-scheme: light;
+	}
+}
+
+body.sidebar-collapsed {
+	--current-sidebar-width: var(--sidebar-collapsed-width);
+}
+
+* {
+	box-sizing: border-box;
+}
+
+body {
+	margin: 0;
+	height: 100vh;
+	display: flex;
+	overflow: hidden;
+	background: var(--background);
+	color: var(--text);
+	font-family: 'Segoe UI Variable Text', 'Segoe UI', system-ui, sans-serif;
+	font-size: 14px;
+	user-select: none;
+}
+
+button {
+	font: inherit;
+	color: inherit;
+}
+
+svg {
+	width: 18px;
+	height: 18px;
+	fill: none;
+	stroke: currentColor;
+	stroke-width: 2;
+	stroke-linecap: round;
+	stroke-linejoin: round;
+}
+
+/* Sidebar */
+
+/* Must match SIDEBAR_ANIMATION_MS in main.ts, which slides the service view along. */
+.sidebar {
+	position: relative;
+	width: var(--current-sidebar-width);
+	flex-shrink: 0;
+	display: flex;
+	flex-direction: column;
+	overflow: hidden;
+	background: var(--panel);
+	border-right: 1px solid var(--border);
+	transition:
+		width 0.22s var(--ease-out),
+		background-color 0.25s,
+		border-color 0.25s;
+}
+
+.icon-button {
+	width: 32px;
+	height: 32px;
+	flex-shrink: 0;
+	display: grid;
+	place-items: center;
+	padding: 0;
+	border: none;
+	border-radius: 8px;
+	background: transparent;
+	color: var(--text-muted);
+	cursor: pointer;
+	transition:
+		background-color 0.15s,
+		color 0.15s,
+		opacity 0.15s;
+}
+
+.icon-button:hover {
+	background: var(--surface-hover);
+	color: var(--text);
+}
+
+.account-list {
+	flex: 1;
+	margin: 0;
+	padding: 12px 8px 4px;
+	list-style: none;
+	overflow-y: auto;
+}
+
+.account {
+	position: relative;
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	margin-bottom: 2px;
+	padding: 8px 6px 8px 8px;
+	border-radius: 10px;
+	cursor: pointer;
+	transition:
+		background-color 0.15s,
+		opacity 0.15s,
+		margin-left 0.22s var(--ease-out);
+}
+
+.account:hover {
+	background: var(--surface);
+}
+
+.account.active {
+	background: var(--surface-hover);
+}
+
+.account.active::before {
+	content: '';
+	position: absolute;
+	left: -8px;
+	top: 10px;
+	bottom: 10px;
+	width: 3px;
+	border-radius: 0 3px 3px 0;
+	background: var(--accent);
+}
+
+.avatar {
+	position: relative;
+	width: 36px;
+	height: 36px;
+	flex-shrink: 0;
+	display: grid;
+	place-items: center;
+	border-radius: 10px;
+	background: var(--avatar-fallback);
+	color: #ffffff;
+	font-weight: 600;
+	transition: opacity 0.2s, filter 0.2s;
+}
+
+.avatar.has-favicon {
+	background: #ffffff;
+	box-shadow: inset 0 0 0 1px var(--border);
+}
+
+.avatar img {
+	width: 22px;
+	height: 22px;
+	object-fit: contain;
+}
+
+.avatar-initials {
+	opacity: 0;
+	transition: opacity 0.2s;
+	position: absolute;
+	left: -4px;
+	bottom: -4px;
+	min-width: 18px;
+	padding: 0 4px;
+	border: 2px solid var(--panel);
+	border-radius: 8px;
+	background: var(--surface-hover);
+	color: var(--text);
+	font-size: 9.5px;
+	font-weight: 700;
+	line-height: 13px;
+	text-align: center;
+}
+
+body.sidebar-collapsed .avatar-initials {
+	opacity: 1;
+}
+
+.account.is-hibernated .avatar {
+	opacity: 0.45;
+	filter: grayscale(1);
+}
+
+.sleep-mark {
+	position: absolute;
+	right: -4px;
+	bottom: -4px;
+	width: 16px;
+	height: 16px;
+	display: grid;
+	place-items: center;
+	border-radius: 50%;
+	background: var(--panel);
+	color: var(--text-muted);
+}
+
+.sleep-mark svg {
+	width: 11px;
+	height: 11px;
+}
+
+.account-details {
+	flex: 1;
+	min-width: 0;
+	display: flex;
+	flex-direction: column;
+	transition: opacity 0.15s;
+}
+
+.account-name,
+.account-subtitle {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.account-subtitle {
+	color: var(--text-muted);
+	font-size: 12px;
+}
+
+.unread-badge {
+	min-width: 20px;
+	padding: 1px 6px;
+	border-radius: 10px;
+	background: var(--accent);
+	color: var(--on-accent);
+	font-size: 12px;
+	font-weight: 700;
+	text-align: center;
+}
+
+.more-button {
+	width: 26px;
+	height: 26px;
+	flex-shrink: 0;
+	opacity: 0;
+}
+
+.account:hover .more-button,
+.account.active .more-button,
+.more-button:focus-visible {
+	opacity: 1;
+}
+
+.sidebar-footer {
+	padding: 12px;
+	border-top: 1px solid var(--border);
+}
+
+.add-button {
+	width: 100%;
+	height: 40px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 6px;
+	border: 1px dashed var(--track);
+	border-radius: 10px;
+	background: transparent;
+	color: var(--text-muted);
+	cursor: pointer;
+	transition:
+		border-color 0.15s,
+		color 0.15s,
+		gap 0.22s var(--ease-out);
+}
+
+.add-button:hover {
+	border-color: var(--accent);
+	color: var(--accent-strong);
+}
+
+.add-icon {
+	font-size: 18px;
+	line-height: 1;
+}
+
+.add-label {
+	max-width: 100px;
+	overflow: hidden;
+	white-space: nowrap;
+	transition:
+		opacity 0.15s,
+		max-width 0.22s var(--ease-out);
+}
+
+/* Collapsed sidebar: icons only. Avatars keep their position (16px from the edge is also the center
+   of the narrow bar), so only the texts fade and the width slides. */
+
+body.sidebar-collapsed .account-details {
+	opacity: 0;
+	pointer-events: none;
+}
+
+body.sidebar-collapsed .add-label {
+	max-width: 0;
+	opacity: 0;
+}
+
+body.sidebar-collapsed .add-button {
+	gap: 0;
+}
+
+body.sidebar-collapsed .unread-badge {
+	position: absolute;
+	top: 2px;
+	right: 2px;
+	min-width: 18px;
+	padding: 0 5px;
+	border: 2px solid var(--panel);
+	font-size: 11px;
+}
+
+body.sidebar-collapsed .more-button {
+	position: absolute;
+	right: -2px;
+	bottom: 0;
+	width: 20px;
+	height: 20px;
+	border-radius: 50%;
+	background: var(--surface-hover);
+}
+
+body.sidebar-collapsed .more-button svg {
+	width: 14px;
+	height: 14px;
+}
+
+body.sidebar-collapsed .account.active .more-button {
+	opacity: 0;
+}
+
+body.sidebar-collapsed .account:hover .more-button {
+	opacity: 1;
+}
+
+body.sidebar-collapsed .sidebar-footer {
+	padding: 12px 10px;
+}
+
+/* Content area, visible when no service view covers it */
+
+.content {
+	flex: 1;
+	min-width: 0;
+	display: flex;
+}
+
+.placeholder {
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: 6px;
+	padding: 24px;
+	text-align: center;
+}
+
+.placeholder[hidden] {
+	display: none;
+}
+
+.placeholder h1 {
+	margin: 8px 0 0;
+	font-size: 22px;
+	font-weight: 500;
+}
+
+.placeholder p {
+	max-width: 380px;
+	margin: 0 0 14px;
+	color: var(--text-muted);
+	line-height: 1.5;
+}
+
+.placeholder-icon {
+	width: 64px;
+	height: 64px;
+	display: grid;
+	place-items: center;
+	border-radius: 20px;
+	background: var(--surface);
+	color: var(--text-muted);
+}
+
+.placeholder-icon svg {
+	width: 30px;
+	height: 30px;
+}
+
+/* Buttons */
+
+.primary-button,
+.secondary-button,
+.danger-button,
+.ghost-danger-button {
+	height: 38px;
+	padding: 0 18px;
+	border: none;
+	border-radius: 10px;
+	font-weight: 600;
+	cursor: pointer;
+	transition: filter 0.15s, background 0.15s;
+}
+
+.primary-button {
+	background: var(--accent);
+	color: var(--on-accent);
+}
+
+.primary-button:hover:not(:disabled) {
+	filter: brightness(1.12);
+}
+
+.primary-button:disabled {
+	opacity: 0.4;
+	cursor: default;
+}
+
+.secondary-button {
+	background: var(--surface-hover);
+	color: var(--text);
+}
+
+.secondary-button:hover:not(:disabled) {
+	background: var(--secondary-hover);
+}
+
+.secondary-button:disabled {
+	opacity: 0.4;
+	cursor: default;
+}
+
+.danger-button {
+	background: var(--danger);
+	color: #ffffff;
+}
+
+.danger-button:hover {
+	filter: brightness(1.08);
+}
+
+.ghost-danger-button {
+	padding: 0 12px;
+	background: transparent;
+	color: var(--danger);
+}
+
+.ghost-danger-button:hover {
+	background: rgba(241, 92, 109, 0.12);
+}
+
+.with-icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 8px;
+}
+
+/* Modal */
+
+.modal-root {
+	position: fixed;
+	inset: 0;
+	z-index: 10;
+	display: grid;
+	place-items: center;
+	padding: 24px;
+}
+
+.modal-root[hidden] {
+	display: none;
+}
+
+.modal-snapshot {
+	position: absolute;
+	top: 0;
+	left: var(--current-sidebar-width);
+	width: calc(100% - var(--current-sidebar-width));
+	height: 100%;
+	object-fit: fill;
+}
+
+.modal-snapshot:not([src]) {
+	display: none;
+}
+
+.modal-backdrop {
+	position: absolute;
+	inset: 0;
+	background: var(--backdrop);
+	backdrop-filter: blur(6px);
+	opacity: 0;
+	transition: opacity 0.18s ease-out;
+}
+
+.modal {
+	position: relative;
+	width: min(520px, 100%);
+	max-height: calc(100vh - 48px);
+	overflow-y: auto;
+	padding: 24px;
+	border: 1px solid var(--border);
+	border-radius: 18px;
+	background: var(--panel);
+	box-shadow: var(--modal-shadow);
+	opacity: 0;
+	transform: translateY(12px) scale(0.97);
+	transition:
+		opacity 0.18s ease-out,
+		transform 0.18s ease-out,
+		background-color 0.25s,
+		border-color 0.25s;
+}
+
+.modal-root.is-visible .modal-backdrop,
+.modal-root.is-visible .modal {
+	opacity: 1;
+}
+
+.modal-root.is-visible .modal {
+	transform: none;
+}
+
+.modal-header {
+	display: flex;
+	align-items: flex-start;
+	gap: 14px;
+	margin-bottom: 20px;
+}
+
+.modal-header .avatar {
+	width: 44px;
+	height: 44px;
+	border-radius: 12px;
+}
+
+.modal-titles {
+	flex: 1;
+	min-width: 0;
+}
+
+.modal-title {
+	margin: 0;
+	font-size: 18px;
+	font-weight: 600;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.modal-subtitle {
+	margin: 4px 0 0;
+	color: var(--text-muted);
+	font-size: 13px;
+	line-height: 1.4;
+}
+
+.modal-section-label {
+	display: block;
+	margin: 0 0 8px;
+	color: var(--text-muted);
+	font-size: 12px;
+	font-weight: 600;
+	letter-spacing: 0.4px;
+	text-transform: uppercase;
+}
+
+.service-grid {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	gap: 8px;
+	margin-bottom: 20px;
+}
+
+.service-tile {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 8px;
+	padding: 14px 8px 12px;
+	border: 1px solid var(--border);
+	border-radius: var(--radius);
+	background: var(--surface);
+	cursor: pointer;
+	transition:
+		border-color 0.15s,
+		background 0.15s,
+		transform 0.15s;
+}
+
+.service-tile:hover {
+	background: var(--surface-hover);
+	transform: translateY(-1px);
+}
+
+.service-tile.is-selected {
+	border-color: var(--accent);
+	background: var(--accent-soft);
+	box-shadow: inset 0 0 0 1px var(--accent);
+}
+
+.service-tile .avatar {
+	width: 40px;
+	height: 40px;
+	font-size: 17px;
+}
+
+.text-field {
+	width: 100%;
+	height: 42px;
+	margin-bottom: 20px;
+	padding: 0 14px;
+	border: 1px solid var(--border);
+	border-radius: 10px;
+	background: var(--background);
+	color: var(--text);
+	font: inherit;
+	user-select: text;
+}
+
+.text-field:focus {
+	outline: none;
+	border-color: var(--accent);
+	box-shadow: 0 0 0 3px var(--accent-ring);
+}
+
+.toggle-row {
+	display: flex;
+	align-items: center;
+	gap: 14px;
+	padding: 14px 16px;
+	border: 1px solid var(--border);
+	border-radius: var(--radius);
+	background: var(--surface);
+	cursor: pointer;
+}
+
+.toggle-text {
+	flex: 1;
+}
+
+.toggle-title {
+	display: block;
+	font-weight: 600;
+}
+
+.toggle-description {
+	display: block;
+	margin-top: 3px;
+	color: var(--text-muted);
+	font-size: 12.5px;
+	line-height: 1.45;
+}
+
+.switch {
+	position: relative;
+	width: 40px;
+	height: 22px;
+	flex-shrink: 0;
+}
+
+.switch input {
+	position: absolute;
+	inset: 0;
+	margin: 0;
+	opacity: 0;
+	cursor: pointer;
+}
+
+.switch-track {
+	position: absolute;
+	inset: 0;
+	border-radius: 11px;
+	background: var(--track);
+	transition: background 0.18s;
+}
+
+.switch-track::after {
+	content: '';
+	position: absolute;
+	top: 3px;
+	left: 3px;
+	width: 16px;
+	height: 16px;
+	border-radius: 50%;
+	background: #ffffff;
+	transition: transform 0.18s;
+}
+
+.switch input:checked + .switch-track {
+	background: var(--accent);
+}
+
+.switch input:checked + .switch-track::after {
+	transform: translateX(18px);
+}
+
+.switch input:focus-visible + .switch-track {
+	box-shadow: 0 0 0 3px var(--accent-ring);
+}
+
+.quick-actions {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 8px;
+	margin-top: 12px;
+}
+
+.modal-footer {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	margin-top: 24px;
+}
+
+.modal-footer .spacer {
+	flex: 1;
+}
+
+.confirm-text {
+	margin: 0;
+	color: var(--text-muted);
+	line-height: 1.5;
+}
+
+/* Footer: add button, then new folder, do not disturb and settings on their own row */
+
+.sidebar-footer {
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+}
+
+.footer-actions {
+	display: flex;
+	justify-content: space-around;
+}
+
+.footer-actions .icon-button {
+	width: 36px;
+	height: 36px;
+}
+
+.icon-button.is-on {
+	color: var(--accent);
+}
+
+body.sidebar-collapsed .footer-actions {
+	flex-direction: column;
+	align-items: center;
+}
+
+/* Drag to reorder */
+
+.account.is-dragging {
+	opacity: 0.4;
+}
+
+.account.drop-before::after,
+.account.drop-after::after {
+	content: '';
+	position: absolute;
+	left: 6px;
+	right: 6px;
+	height: 2px;
+	border-radius: 1px;
+	background: var(--accent);
+}
+
+.account.drop-before::after {
+	top: -2px;
+}
+
+.account.drop-after::after {
+	bottom: -2px;
+}
+
+/* Modal pieces added with settings and do not disturb */
+
+.toggle-row + .toggle-row {
+	margin-top: 8px;
+}
+
+.field-error {
+	margin: -14px 0 16px;
+	color: var(--danger);
+	font-size: 12.5px;
+}
+
+.text-field.has-error {
+	border-color: var(--danger);
+}
+
+.modal-section + .modal-section {
+	margin-top: 22px;
+}
+
+.segmented {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	gap: 4px;
+	padding: 4px;
+	border: 1px solid var(--border);
+	border-radius: var(--radius);
+	background: var(--surface);
+}
+
+.segmented button {
+	height: 34px;
+	border: none;
+	border-radius: 8px;
+	background: transparent;
+	color: var(--text-muted);
+	font-weight: 600;
+	cursor: pointer;
+}
+
+.segmented button:hover {
+	color: var(--text);
+}
+
+.segmented button.is-selected {
+	background: var(--panel);
+	color: var(--text);
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+}
+
+.status-pill {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	margin-bottom: 18px;
+	padding: 6px 12px;
+	border-radius: 999px;
+	background: var(--surface);
+	color: var(--text-muted);
+	font-size: 13px;
+}
+
+.status-pill.is-on {
+	background: var(--accent-soft);
+	color: var(--accent);
+}
+
+.status-pill svg {
+	width: 15px;
+	height: 15px;
+}
+
+.pause-options {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	gap: 8px;
+}
+
+.schedule-times {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	margin-top: 10px;
+	padding: 0 4px;
+	color: var(--text-muted);
+}
+
+.schedule-times input {
+	width: 110px;
+	height: 38px;
+	margin: 0;
+	padding: 0 10px;
+}
+
+.schedule-times input:disabled {
+	opacity: 0.45;
+}
+
+.modal-note {
+	margin: 14px 0 0;
+	color: var(--text-muted);
+	font-size: 12.5px;
+	line-height: 1.5;
+}
+
+.service-tile .avatar svg {
+	width: 22px;
+	height: 22px;
+}
+
+/* Folders */
+
+.folder-header {
+	position: relative;
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	margin: 10px 0 2px;
+	padding: 6px 6px 6px 8px;
+	border-radius: 8px;
+	color: var(--text-muted);
+	font-size: 12px;
+	font-weight: 700;
+	letter-spacing: 0.4px;
+	text-transform: uppercase;
+	cursor: pointer;
+}
+
+.folder-header:hover {
+	background: var(--surface);
+	color: var(--text);
+}
+
+.folder-chevron {
+	display: grid;
+	place-items: center;
+	transition: transform 0.15s;
+}
+
+.folder-chevron svg {
+	width: 14px;
+	height: 14px;
+}
+
+.folder-header.is-collapsed .folder-chevron {
+	transform: rotate(-90deg);
+}
+
+.folder-name {
+	flex: 1;
+	min-width: 0;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.folder-short-name {
+	display: none;
+}
+
+.folder-header .unread-badge {
+	text-transform: none;
+	letter-spacing: 0;
+}
+
+.folder-header .more-button {
+	width: 22px;
+	height: 22px;
+}
+
+.folder-header:hover .more-button {
+	opacity: 1;
+}
+
+.folder-header.has-active {
+	color: var(--accent);
+}
+
+.account.in-folder {
+	margin-left: 10px;
+}
+
+.account.in-folder.active::before {
+	left: -18px;
+}
+
+.folder-header.drop-into,
+.unfiled-drop-zone.drop-into {
+	background: var(--accent-soft);
+	box-shadow: inset 0 0 0 1px var(--accent);
+	color: var(--accent);
+}
+
+.folder-header.drop-before::after,
+.folder-header.drop-after::after {
+	content: '';
+	position: absolute;
+	left: 6px;
+	right: 6px;
+	height: 2px;
+	border-radius: 1px;
+	background: var(--accent);
+}
+
+.folder-header.drop-before::after {
+	top: -2px;
+}
+
+.folder-header.drop-after::after {
+	bottom: -2px;
+}
+
+.unfiled-drop-zone {
+	margin-top: 8px;
+	padding: 10px;
+	border: 1px dashed var(--track);
+	border-radius: 10px;
+	color: var(--text-muted);
+	font-size: 12px;
+	text-align: center;
+}
+
+select.text-field {
+	cursor: pointer;
+}
+
+body.sidebar-collapsed .folder-header {
+	justify-content: center;
+	gap: 0;
+	padding: 6px 0;
+	font-size: 9.5px;
+	letter-spacing: 0;
+}
+
+body.sidebar-collapsed .folder-name,
+body.sidebar-collapsed .folder-chevron,
+body.sidebar-collapsed .folder-header .more-button {
+	display: none;
+}
+
+body.sidebar-collapsed .folder-short-name {
+	display: block;
+	border-bottom: 1px solid var(--border);
+	padding-bottom: 2px;
+}
+
+body.sidebar-collapsed .folder-header.is-collapsed .folder-short-name {
+	border-bottom-style: dashed;
+}
+
+body.sidebar-collapsed .folder-header .unread-badge {
+	position: absolute;
+	top: -4px;
+	right: 2px;
+	min-width: 16px;
+	padding: 0 4px;
+	font-size: 10px;
+}
+
+body.sidebar-collapsed .account.in-folder {
+	margin-left: 0;
+}
+
+body.sidebar-collapsed .account.in-folder.active::before {
+	left: -8px;
+}
+
+body.sidebar-collapsed .unfiled-drop-zone {
+	padding: 8px 0;
+	font-size: 0;
+}
+
+body.sidebar-collapsed .unfiled-drop-zone::before {
+	content: '↩';
+	font-size: 14px;
+}
+
+/* Motion: things that open, close, appear or change slide and fade instead of jumping. */
+
+body,
+.content,
+.text-field {
+	transition:
+		background-color 0.25s,
+		color 0.25s,
+		border-color 0.25s,
+		box-shadow 0.15s;
+}
+
+.folder-header {
+	transition:
+		background-color 0.15s,
+		color 0.15s,
+		padding 0.22s var(--ease-out);
+}
+
+.account.is-dragging {
+	transition: opacity 0.15s;
+}
+
+/* Must match ROW_ANIMATION_MS in sidebar.ts. */
+.is-entering {
+	overflow: hidden;
+	animation: row-enter 0.22s var(--ease-out) both;
+}
+
+.is-leaving {
+	overflow: hidden;
+	pointer-events: none;
+	animation: row-leave 0.18s ease-in forwards;
+}
+
+@keyframes row-enter {
+	from {
+		max-height: 0;
+		margin-bottom: 0;
+		padding-top: 0;
+		padding-bottom: 0;
+		opacity: 0;
+		transform: translateX(-8px);
+	}
+	to {
+		max-height: 60px;
+	}
+}
+
+@keyframes row-leave {
+	from {
+		max-height: 60px;
+	}
+	to {
+		max-height: 0;
+		margin-bottom: 0;
+		padding-top: 0;
+		padding-bottom: 0;
+		opacity: 0;
+		transform: translateX(-8px);
+	}
+}
+
+.account.is-activating {
+	animation: row-activate 0.3s var(--ease-out);
+}
+
+.account.is-activating::before {
+	animation: indicator-in 0.3s var(--ease-out);
+}
+
+@keyframes row-activate {
+	from {
+		background-color: transparent;
+	}
+}
+
+@keyframes indicator-in {
+	from {
+		transform: scaleY(0);
+	}
+}
+
+.unread-badge.is-bumped {
+	animation: badge-bump 0.4s var(--ease-out);
+}
+
+@keyframes badge-bump {
+	0% {
+		transform: scale(0.6);
+	}
+	60% {
+		transform: scale(1.18);
+	}
+	100% {
+		transform: scale(1);
+	}
+}
+
+.placeholder:not([hidden]) {
+	animation: fade-up 0.3s var(--ease-out);
+}
+
+/* The modal fades out as well: closing removes .is-visible and waits MODAL_TRANSITION_MS before hiding. */
+.modal.is-swapping > * {
+	animation: fade-up 0.2s var(--ease-out) both;
+}
+
+@keyframes fade-up {
+	from {
+		opacity: 0;
+		transform: translateY(6px);
+	}
+}
+
+.service-tile,
+.toggle-row,
+.secondary-button,
+.segmented button {
+	transition:
+		border-color 0.15s,
+		background-color 0.15s,
+		color 0.15s,
+		box-shadow 0.15s,
+		transform 0.15s;
+}
+
+.service-tile:active,
+.primary-button:active:not(:disabled),
+.secondary-button:active:not(:disabled),
+.add-button:active {
+	transform: scale(0.97);
+}
+
+@media (prefers-reduced-motion: reduce) {
+	*,
+	*::before,
+	*::after {
+		animation-duration: 0.01ms !important;
+		transition-duration: 0.01ms !important;
+	}
+}
+
+.placeholder-logo {
+	width: 96px;
+	height: 96px;
+	margin-bottom: 4px;
+}
+
+/* Scrollbars: thin, rounded and in the theme grays instead of the default Windows bar. */
+
+::-webkit-scrollbar {
+	width: 10px;
+	height: 10px;
+}
+
+::-webkit-scrollbar-track {
+	background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+	border: 3px solid transparent;
+	border-radius: 10px;
+	background: var(--track);
+	background-clip: content-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+	background: var(--text-muted);
+	background-clip: content-box;
+}
+
+::-webkit-scrollbar-corner {
+	background: transparent;
+}
+
+/* Keeps the bar inside the modal's rounded corners. */
+.modal::-webkit-scrollbar-track {
+	margin: 16px 0;
+}
+
+/* Drag handle on the sidebar edge */
+
+.sidebar-resizer {
+	position: absolute;
+	top: 0;
+	right: 0;
+	z-index: 5;
+	width: 5px;
+	height: 100%;
+	cursor: col-resize;
+}
+
+.sidebar-resizer::after {
+	content: '';
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	width: 2px;
+	background: transparent;
+	transition: background-color 0.15s;
+}
+
+.sidebar-resizer:hover::after,
+body.is-resizing-sidebar .sidebar-resizer::after {
+	background: var(--accent);
+}
+
+body.is-resizing-sidebar {
+	cursor: col-resize;
+	user-select: none;
+}
+
+/* The width follows the pointer directly, without the slide used when collapsing. */
+body.is-resizing-sidebar .sidebar {
+	transition: none;
+}
+
+body.sidebar-collapsed .sidebar-resizer {
+	display: none;
+}

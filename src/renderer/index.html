@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="pt-BR">
+	<head>
+		<meta charset="UTF-8" />
+		<meta
+			http-equiv="Content-Security-Policy"
+			content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' https: data:"
+		/>
+		<title>Prupru</title>
+		<link rel="stylesheet" href="styles.css" />
+	</head>
+	<body>
+		<aside class="sidebar">
+			<div id="sidebar-resizer" class="sidebar-resizer" title="Arraste para ajustar a largura (duplo clique volta ao padrão)"></div>
+			<ul id="account-list" class="account-list"></ul>
+			<footer class="sidebar-footer">
+				<button id="add-account" class="add-button" type="button" title="Adicionar serviço">
+					<span class="add-icon">+</span><span class="add-label">Adicionar</span>
+				</button>
+				<div class="footer-actions">
+					<button id="new-folder-button" class="icon-button" type="button"></button>
+					<button id="do-not-disturb-button" class="icon-button" type="button"></button>
+					<button id="settings-button" class="icon-button" type="button"></button>
+					<button id="collapse-toggle" class="icon-button" type="button"></button>
+				</div>
+			</footer>
+		</aside>
+
+		<main class="content">
+			<section id="empty-state" class="placeholder" hidden>
+				<img class="placeholder-logo" src="brand.png" alt="" />
+				<h1>Nenhum serviço ainda</h1>
+				<p>Adicione WhatsApp, Gmail, Teams, Notion e outros. Cada um fica com o seu próprio login.</p>
+				<button id="add-first-account" class="primary-button" type="button">Adicionar o primeiro serviço</button>
+			</section>
+			<section id="sleeping-state" class="placeholder" hidden>
+				<div id="sleeping-icon" class="placeholder-icon"></div>
+				<h1 id="sleeping-title"></h1>
+				<p>Ele foi descarregado da memória para deixar o computador mais leve. O login continua salvo.</p>
+				<button id="wake-account" class="primary-button" type="button">Acordar</button>
+			</section>
+		</main>
+
+		<div id="modal-root" class="modal-root" hidden>
+			<img id="modal-snapshot" class="modal-snapshot" alt="" />
+			<div id="modal-backdrop" class="modal-backdrop"></div>
+			<section id="modal" class="modal" role="dialog" aria-modal="true"></section>
+		</div>
+
+		<script src="sidebar.js"></script>
+	</body>
+</html>
