@@ -17,7 +17,6 @@
 
 <p align="center">
   <a href="https://github.com/nicolasdeves/prupru/releases/latest"><img src="https://img.shields.io/github/v/release/nicolasdeves/prupru?label=vers%C3%A3o&color=48484f" alt="Versão" /></a>
-  <a href="https://github.com/nicolasdeves/prupru/releases"><img src="https://img.shields.io/github/downloads/nicolasdeves/prupru/total?label=downloads&color=48484f" alt="Downloads" /></a>
   <img src="https://img.shields.io/badge/Windows-10%20%7C%2011-48484f" alt="Windows 10 e 11" />
 </p>
 
