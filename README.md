@@ -1,261 +1,198 @@
-# Prupru
+<p align="center">
+  <img src="assets/icon.png" alt="Prupru" width="140" />
+</p>
 
-Vários serviços — WhatsApp, Gmail, Outlook, Teams, Notion, Discord, Instagram, ChatGPT, Claude e qualquer
-site — em um só aplicativo de desktop para Windows. Cada conta roda isolada, com o seu próprio login, então dá
-para ter quatro WhatsApps, dois Gmails e um Teams lado a lado.
+<h1 align="center">Prupru</h1>
 
-Feito com [Electron](https://www.electronjs.org/) e TypeScript.
+<p align="center">
+  <strong>Todos os seus mensageiros num só lugar.</strong><br />
+  WhatsApp, Gmail, Teams, Notion e o que mais você usar — cada conta com o seu login, numa janela só.
+</p>
 
----
+<p align="center">
+  <a href="https://github.com/nicolasdeves/prupru/releases/latest">
+    <img src="https://img.shields.io/badge/Baixar%20para%20Windows-1c1c20?style=for-the-badge&logo=windows&logoColor=white" alt="Baixar para Windows" />
+  </a>
+</p>
 
-## Sumário
+<p align="center">
+  <a href="https://github.com/nicolasdeves/prupru/releases/latest"><img src="https://img.shields.io/github/v/release/nicolasdeves/prupru?label=vers%C3%A3o&color=48484f" alt="Versão" /></a>
+  <a href="https://github.com/nicolasdeves/prupru/releases"><img src="https://img.shields.io/github/downloads/nicolasdeves/prupru/total?label=downloads&color=48484f" alt="Downloads" /></a>
+  <img src="https://img.shields.io/badge/Windows-10%20%7C%2011-48484f" alt="Windows 10 e 11" />
+</p>
 
-- [Instalação](#instalação)
-- [Como usar](#como-usar)
-- [Recursos](#recursos)
-- [Onde ficam os dados](#onde-ficam-os-dados)
-- [Desinstalar](#desinstalar)
-- [Problemas comuns](#problemas-comuns)
-- [Desenvolvimento](#desenvolvimento)
-- [Gerar o instalador](#gerar-o-instalador)
-- [Como funciona por dentro](#como-funciona-por-dentro)
-
----
-
-## Instalação
-
-1. Execute `Prupru-Setup-<versão>.exe` (gerado em `release/`, veja [Gerar o instalador](#gerar-o-instalador)).
-2. Se o Windows mostrar **"O Windows protegeu o computador"**, clique em **Mais informações → Executar assim
-   mesmo**. O aviso aparece porque o instalador não tem assinatura digital paga; não é vírus.
-3. Escolha a pasta (o padrão é `%LOCALAPPDATA%\Programs\Prupru`) e conclua.
-
-O instalador cria atalhos na **área de trabalho** e no **Menu Iniciar**. Para atualizar, basta instalar uma
-versão nova por cima: contas e logins continuam.
+<p align="center">
+  <img src="assets/screenshots/principal.png" alt="Prupru com as pastas Trabalho e Pessoal na barra lateral" width="900" />
+</p>
 
 ---
 
-## Como usar
+## O que ele resolve
 
-### Adicionar um serviço
-**+ Adicionar** (rodapé da barra lateral) → escolha o serviço → dê um nome (opcional) → **Adicionar**.
-Faça o login como faria no navegador (no WhatsApp, leia o QR code em *Aparelhos conectados* no celular).
+Quem usa mais de um WhatsApp, o e-mail do trabalho e o pessoal, o Teams da empresa e o Notion do time vive
+pulando entre abas, janelas e aparelhos. O Prupru junta tudo numa barra lateral simples:
 
-Para um site que não está na lista, escolha **Site personalizado** e informe o endereço (por exemplo
-`trello.com`).
+- **Várias contas do mesmo serviço, lado a lado.** Quatro WhatsApps? Dois Gmails? Pode. Cada conta é isolada e
+  continua logada.
+- **Organizado do seu jeito.** Pastas como *Trabalho* e *Pessoal*, arraste para reordenar, recolha a barra para
+  ficar só com os ícones.
+- **Leve.** O que você não está usando hiberna e sai da memória; acorda com um clique, ainda logado.
+- **Silencioso quando você precisa.** Não perturbe com pausa rápida ou horário programado.
 
-### Opções de uma conta (botão ⋮)
-Passe o mouse na conta e clique em **⋮**:
+## Serviços
 
-| Opção | O que faz |
-|---|---|
-| Nome | Renomeia a conta. |
-| Endereço do site | Só em sites personalizados. |
-| Pasta | Move a conta para uma pasta. |
-| Hibernar automaticamente | Tira da memória após 15 min sem uso (veja [Hibernação](#hibernação)). |
-| Silenciar notificações | Sem avisos nem sons desta conta. |
-| Recarregar | Recarrega a página. |
-| Hibernar agora / Acordar | Libera a memória na hora, ou carrega de volta. |
-| Remover | Desconecta a conta deste computador e apaga os dados dela aqui. |
+<table>
+  <tr>
+    <td align="center"><img src="assets/services/whatsapp.webp" width="32" /><br />WhatsApp</td>
+    <td align="center"><img src="assets/services/gmail.ico" width="32" /><br />Gmail</td>
+    <td align="center"><img src="assets/services/outlook.ico" width="32" /><br />Outlook</td>
+    <td align="center"><img src="assets/services/teams.ico" width="32" /><br />Teams</td>
+    <td align="center"><img src="assets/services/notion.ico" width="32" /><br />Notion</td>
+  </tr>
+  <tr>
+    <td align="center"><img src="assets/services/discord.ico" width="32" /><br />Discord</td>
+    <td align="center"><img src="assets/services/instagram.ico" width="32" /><br />Instagram</td>
+    <td align="center"><img src="assets/services/chatgpt.ico" width="32" /><br />ChatGPT</td>
+    <td align="center"><img src="assets/services/claude.svg" width="32" /><br />Claude</td>
+    <td align="center">🌐<br />Qualquer site</td>
+  </tr>
+</table>
 
-### Pastas
-- **Nova pasta**: ícone de pasta no rodapé.
-- **Colocar uma conta na pasta**: arraste a conta até o nome da pasta, ou escolha a pasta no ⋮ da conta.
-- **Tirar da pasta**: arraste até a faixa *"Solte aqui para tirar da pasta"*, que aparece no fim da lista
-  durante o arraste.
-- **Abrir/fechar**: clique no nome da pasta. Fechada, ela mostra a soma das não lidas.
-- **Reordenar**: arraste contas e pastas.
-- **Renomear/excluir**: ⋮ ao lado do nome da pasta. Excluir a pasta não apaga as contas.
-
-### Barra lateral
-- **Recolher/expandir**: último ícone do rodapé. Recolhida, mostra só os ícones (com as iniciais quando há
-  duas contas do mesmo serviço).
-- **Largura**: arraste a borda direita da barra (de 180 a 380 px). Duplo clique na borda volta ao padrão.
-
-### Rodapé
-
-| Ícone | Função |
-|---|---|
-| + Adicionar | Adiciona um serviço. |
-| Pasta | Cria uma pasta. |
-| Sino | Não perturbe. |
-| Engrenagem | Configurações (tema e iniciar com o Windows). |
-| « / » | Recolhe ou expande a barra. |
-
----
+Não achou o que usa? Escolha **Site personalizado** e informe o endereço — Trello, Jira, o sistema da empresa,
+o que for.
 
 ## Recursos
 
-### Hibernação
-Cada serviço aberto é um navegador inteiro na memória (de ~150 MB a ~500 MB). A hibernação descarrega da
-memória o serviço que ficou **15 minutos** sem ser usado; ele aparece apagado, com uma lua, e acorda ao
-clicar — o login continua salvo.
-
-Enquanto hiberna, o serviço **não recebe notificações**. Por isso o padrão é:
-- **Sempre ativos**: WhatsApp, Gmail, Outlook, Teams, Discord.
-- **Hibernam**: Notion, Instagram, ChatGPT, Claude e sites personalizados.
-
-Os serviços que hibernam também só carregam quando você clica neles pela primeira vez, o que deixa a abertura
-do app mais leve.
-
-### Não perturbe
-Sino no rodapé:
-- **Pausar agora**: por 1 hora ou até as 8h.
-- **Horário programado**: silencia todo dia num período (ex.: das 19:00 às 08:00).
-
-Silencia as notificações e os sons dos serviços que **não estão na tela** — o serviço aberto continua com som,
-para não perder uma chamada. Os contadores de não lidas continuam aparecendo.
-
-### Notificações e contadores
-- Notificações nativas do Windows; clicar numa delas abre a conta que recebeu a mensagem.
-- Contador de não lidas em cada conta, na pasta fechada e como bolinha vermelha no ícone da barra de tarefas.
-  Vem do título da página: funciona no WhatsApp, Gmail, Teams, Discord, Instagram, Notion e na maioria dos
-  sites; Outlook, ChatGPT e Claude não mostram contagem.
-
-### Bandeja e inicialização
-- Fechar a janela deixa o Prupru rodando ao lado do relógio. Para sair de vez: ícone da bandeja → **Sair**.
-- **Configurações → Iniciar com o Windows**: abre minimizado na bandeja quando o computador liga.
-
-### Tema
-**Configurações → Aparência**: Sistema, Claro ou Escuro. Os serviços que seguem o tema do sistema mudam junto.
-
-### Links
-Links de outros sites abrem no seu navegador padrão. Logins com Google, Microsoft ou Apple abrem dentro do app,
-para ficarem na sessão da conta.
-
----
-
-## Onde ficam os dados
-
-| O quê | Onde |
+| | |
 |---|---|
-| Programa instalado | `%LOCALAPPDATA%\Programs\Prupru` |
-| Contas, pastas, preferências | `%APPDATA%\Prupru\accounts.json` |
-| Cópia de segurança (versão anterior) | `%APPDATA%\Prupru\accounts.json.bak` |
-| Logins e dados de cada conta | `%APPDATA%\Prupru\Partitions\<id da conta>` |
-| Registro de erros | `%APPDATA%\Prupru\prupru.log` |
+| 👥 **Contas isoladas** | Cada conta tem os seus próprios cookies e login. Nada se mistura. |
+| 📁 **Pastas** | Agrupe por *Trabalho*, *Pessoal* ou como preferir. Pasta fechada mostra a soma das não lidas. |
+| 🔔 **Notificações** | Avisos nativos do Windows; clicar abre a conta certa. Contador em cada conta e no ícone da barra de tarefas. |
+| 🌙 **Hibernação** | Serviços parados há 15 minutos saem da memória e acordam ao clicar. Os de mensagem ficam sempre ativos. |
+| 🤫 **Não perturbe** | Pausa por 1 hora, até as 8h, ou todo dia num horário. O serviço na tela continua com som. |
+| 🔕 **Silenciar uma conta** | Para aquele grupo que não para. |
+| ↔️ **Barra lateral do seu tamanho** | Arraste a borda para ajustar, ou recolha para ver só os ícones. |
+| 🌓 **Tema claro e escuro** | Ou siga o tema do Windows. |
+| 🚀 **Inicia com o Windows** | Opcional: abre minimizado ao lado do relógio. |
 
-A cada alteração, a versão anterior do `accounts.json` vira o `accounts.json.bak`. Se o arquivo principal não
-puder ser lido ao abrir (por exemplo, preso por um antivírus), o Prupru tenta de novo por alguns segundos e, se
-precisar, usa a cópia de segurança. Se nenhum dos dois puder ser lido, ele avisa e fecha **sem gravar nada**, para
-nunca substituir as suas contas por uma lista vazia.
+## Por dentro do app
 
-Nada sai do seu computador: o Prupru não tem servidor próprio. Cada conta conversa direto com o seu serviço,
-como uma aba de navegador.
+<table>
+  <tr>
+    <td align="center" width="50%">
+      <img src="assets/screenshots/adicionar-servico.png" alt="Escolhendo o serviço a adicionar" /><br />
+      <sub><strong>Adicionar serviço</strong> — escolha, dê um nome e coloque numa pasta.</sub>
+    </td>
+    <td align="center" width="50%">
+      <img src="assets/screenshots/opcoes-da-conta.png" alt="Opções de uma conta" /><br />
+      <sub><strong>Opções da conta</strong> — pasta, hibernação, silenciar, recarregar.</sub>
+    </td>
+  </tr>
+  <tr>
+    <td align="center" width="50%">
+      <img src="assets/screenshots/nao-perturbe.png" alt="Não perturbe" /><br />
+      <sub><strong>Não perturbe</strong> — pausa rápida ou horário programado.</sub>
+    </td>
+    <td align="center" width="50%">
+      <img src="assets/screenshots/tema-claro-recolhida.png" alt="Tema claro com a barra recolhida" /><br />
+      <sub><strong>Tema claro e barra recolhida</strong> — só os ícones, com as iniciais das contas.</sub>
+    </td>
+  </tr>
+</table>
 
-Para começar do zero: feche o Prupru (bandeja → Sair) e apague `%APPDATA%\Prupru`.
+## Como instalar
+
+1. **Baixe** o instalador na página de [**versões**](https://github.com/nicolasdeves/prupru/releases/latest):
+   em *Assets*, clique em `Prupru-Setup-<versão>.exe`.
+2. **Abra o arquivo.** Se aparecer *"O Windows protegeu o computador"*, clique em **Mais informações →
+   Executar assim mesmo**. O aviso aparece porque o Prupru ainda não tem uma assinatura digital paga — não é
+   vírus, e o código está todo aqui no repositório.
+3. **Siga o instalador.** Ele cria atalhos na área de trabalho e no Menu Iniciar.
+
+**Atualizar** é igual: baixe a versão nova e instale por cima. Suas contas e logins continuam.
+
+## Primeiros passos
+
+1. Clique em **+ Adicionar**, escolha o serviço e dê um nome se quiser (por exemplo, *WhatsApp Loja*).
+2. Faça o login como faria no navegador. No WhatsApp, abra o app no celular, vá em **Aparelhos conectados** e
+   leia o QR code.
+3. Crie pastas pelo ícone de pasta no rodapé e arraste as contas para dentro delas.
+4. Em cada conta, o botão **⋮** abre as opções: nome, pasta, hibernação, silenciar, recarregar e remover.
+
+Fechar a janela deixa o Prupru rodando ao lado do relógio, para continuar recebendo mensagens. Para sair de vez,
+clique com o botão direito no pombo da bandeja → **Sair**.
+
+## Privacidade
+
+- **Tudo fica no seu computador.** O Prupru não tem servidor, não cria conta e não coleta nada.
+- Cada serviço conversa direto com o próprio site, exatamente como uma aba do navegador.
+- Os dados ficam em `%APPDATA%\Prupru`, com uma cópia de segurança da lista de contas a cada alteração.
+
+## Sobre a memória
+
+Cada serviço aberto é, por baixo, um navegador inteiro — um WhatsApp ocupa de 150 a 200 MB, o Teams bem mais.
+Isso vale para qualquer app desse tipo. O Prupru ajuda com a **hibernação**: o que você não está usando sai da
+memória, e só os serviços de mensagem ficam sempre ativos para não perder notificações.
+
+## Perguntas frequentes
+
+<details>
+<summary><strong>Preciso deixar o celular ligado para o WhatsApp funcionar?</strong></summary>
+
+Não. O Prupru usa o WhatsApp Web, que funciona como aparelho conectado: depois de ler o QR code, ele segue
+funcionando mesmo com o celular desligado (por até 14 dias sem o celular se conectar).
+</details>
+
+<details>
+<summary><strong>A notificação não aparece.</strong></summary>
+
+Confira em *Configurações do Windows → Sistema → Notificações* se o Prupru está permitido, e se o Não perturbe
+(do Prupru e do Windows) está desligado. Serviço hibernado não recebe notificação.
+</details>
+
+<details>
+<summary><strong>Um serviço ficou em branco ou travado.</strong></summary>
+
+Clique em **⋮ → Recarregar** na conta.
+</details>
+
+<details>
+<summary><strong>O login com o Google não funciona.</strong></summary>
+
+Às vezes o Google recusa logins em apps de desktop. Tente entrar com e-mail e senha em vez do botão do Google,
+ou recarregue e tente de novo.
+</details>
+
+<details>
+<summary><strong>Apareceu "Não foi possível ler as suas contas".</strong></summary>
+
+Nada foi apagado — o Prupru fecha justamente para proteger a sua lista de contas. Abra de novo em alguns
+segundos. Se repetir, o arquivo `%APPDATA%\Prupru\prupru.log` mostra o motivo.
+</details>
+
+<details>
+<summary><strong>Tem para Mac ou Linux?</strong></summary>
+
+Por enquanto, só Windows.
+</details>
+
+<details>
+<summary><strong>Como desinstalar?</strong></summary>
+
+*Configurações do Windows → Aplicativos → Aplicativos instalados → Prupru → Desinstalar.* Suas contas ficam em
+`%APPDATA%\Prupru`, caso queira reinstalar; para apagar tudo, remova essa pasta depois.
+</details>
+
+## Para desenvolvedores
+
+Feito com [Electron](https://www.electronjs.org/) e TypeScript. Como rodar, a estrutura do código, como gerar o
+instalador e publicar uma versão estão em [**DESENVOLVIMENTO.md**](DESENVOLVIMENTO.md).
 
 ---
 
-## Desinstalar
-
-**Configurações do Windows → Aplicativos → Aplicativos instalados → Prupru → Desinstalar.**
-
-A desinstalação mantém `%APPDATA%\Prupru` (contas e logins), para o caso de reinstalar. Para apagar tudo, remova
-essa pasta depois.
-
----
-
-## Problemas comuns
-
-| Sintoma | O que fazer |
-|---|---|
-| "O Windows protegeu o computador" ao instalar | **Mais informações → Executar assim mesmo**. O instalador não é assinado digitalmente. |
-| Notificação não aparece | Confira em *Configurações do Windows → Sistema → Notificações* se o Prupru está permitido, e se o Não perturbe (do Prupru e do Windows) está desligado. Serviço hibernado não notifica. |
-| Um serviço ficou em branco ou travado | ⋮ → **Recarregar**. |
-| Login com Google recusado ("navegador não seguro") | Tente entrar com e-mail e senha em vez do botão do Google, ou recarregue e tente de novo. |
-| WhatsApp pede QR code de novo | O celular desconectou o aparelho. Leia o QR code outra vez. |
-| O app não abre (só aparece na bandeja) | Clique no ícone do pombo ao lado do relógio. |
-| "Não foi possível ler as suas contas" | Nada foi apagado. Abra o Prupru de novo em alguns segundos. Se repetir, veja `%APPDATA%\Prupru\prupru.log`. |
-| Ícone antigo no atalho | O Windows guarda ícones em cache; reiniciar o computador atualiza. |
-
----
-
-## Desenvolvimento
-
-Requisitos: **Node.js 22+** e **npm**, no Windows.
-
-```bash
-npm install          # instala as dependências
-npm start            # compila e abre o app em modo de desenvolvimento
-```
-
-Em modo de desenvolvimento o processo aparece como **Electron** no Gerenciador de Tarefas e nas notificações;
-na versão instalada aparece como **Prupru**. As duas usam a mesma pasta de dados, então feche uma antes de abrir
-a outra.
-
-### Comandos
-
-| Comando | O que faz |
-|---|---|
-| `npm run build` | Compila o TypeScript para `dist/` e copia a página da barra lateral. |
-| `npm start` | Compila e abre o app. |
-| `npm run dist` | Gera o instalador em `release/`. |
-| `npm run icon` | Gera `assets/icon.png` e `assets/icon.ico` a partir de `assets/icon-source.webp`. |
-| `npm run icons:services` | Baixa de novo os ícones dos serviços para `assets/services/`. |
-
-### Estrutura
-
-```
-prupru/
-├── assets/
-│   ├── icon-source.webp       # desenho original do pombo
-│   ├── icon.png / icon.ico    # ícones gerados (janela, bandeja, atalho, instalador)
-│   └── services/              # ícones de cada serviço do catálogo
-├── scripts/
-│   ├── buildIcon.cjs          # recorta o fundo do desenho e gera os ícones
-│   ├── copyRenderer.mjs       # copia HTML/CSS/ícone para dist/renderer
-│   └── fetchServiceIcons.cjs  # baixa os ícones dos serviços
-└── src/
-    ├── main.ts                # processo principal: janela, contas, hibernação, bandeja, não perturbe
-    ├── serviceCatalog.ts      # serviços disponíveis (endereço, domínios, contador, ícone)
-    ├── accountStore.ts        # leitura e gravação de accounts.json
-    ├── legacyDataMigration.ts # copia os dados de quando o app se chamava "Zap Hub"
-    ├── types.d.ts             # tipos compartilhados entre os processos
-    ├── preload/
-    │   ├── sidebar.ts         # ponte entre a barra lateral e o processo principal
-    │   └── account.ts         # notificações das páginas dos serviços
-    └── renderer/
-        ├── index.html
-        ├── styles.css         # paleta cinza, temas claro/escuro, animações
-        └── sidebar.ts         # barra lateral, pastas, arrastar, modais
-```
-
-### Adicionar um serviço ao catálogo
-1. Acrescente o id em `PrupruServiceTypeId` (`src/types.d.ts`).
-2. Acrescente a entrada em `SERVICE_TYPES` (`src/serviceCatalog.ts`): nome, cor, endereço, domínios que ficam
-   dentro do app, padrão do contador no título e se hiberna por padrão.
-3. Rode `npm run icons:services` para baixar o ícone (ou coloque `assets/services/<id>.png` à mão).
-
-### Trocar o ícone do app
-Substitua `assets/icon-source.webp` (fundo branco ou transparente) e rode `npm run icon`.
-
----
-
-## Gerar o instalador
-
-```bash
-npm run dist
-```
-
-Gera `release/Prupru-Setup-<versão>.exe`. Antes de gerar uma versão nova, aumente `version` no `package.json`.
-
-O instalador não é assinado. Para tirar o aviso do SmartScreen é preciso um certificado de assinatura de código
-(ou publicar na Microsoft Store).
-
----
-
-## Como funciona por dentro
-
-- **Uma janela, várias páginas.** A janela mostra a barra lateral (uma página HTML) e, à direita, uma
-  `WebContentsView` por conta carregada. Só a da conta selecionada fica visível.
-- **Sessões isoladas.** Cada conta usa a partição `persist:<id>`, com cookies e armazenamento próprios — é isso
-  que permite vários logins do mesmo serviço.
-- **Navegador "comum".** As páginas se apresentam como o Chrome (user agent), porque o WhatsApp Web e o login do
-  Google recusam navegadores que não reconhecem.
-- **Contador de não lidas.** Lido do título da página, como "(3) WhatsApp", com um padrão por serviço.
-- **Notificações.** O preload das contas envolve a `Notification` da página: o clique abre a conta certa, e com a
-  conta silenciada ou o não perturbe ativo a notificação não é exibida.
-- **Hibernação.** Fechar a `WebContentsView` libera o processo da página; a sessão continua no disco e a conta é
-  recriada ao ser selecionada.
-- **Modais.** As páginas dos serviços ficam por cima da barra lateral, então, para abrir um modal, elas são
-  escondidas e uma imagem desfocada do serviço aparece no fundo.
+<p align="center">
+  <sub>
+    O Prupru não é afiliado ao WhatsApp, Meta, Google, Microsoft, Notion, Discord, OpenAI ou Anthropic.
+    Os nomes e ícones desses serviços pertencem aos seus donos e aparecem só para identificar cada serviço.
+  </sub>
+</p>
